@@ -5,14 +5,14 @@ import com.example.todoappjetpackcompose.util.Action
 import com.example.todoappjetpackcompose.util.Constants.LIST_SCREEN
 
 class Screens(navHostController: NavHostController) {
-    val list: (Action) -> Unit = {action ->
-        navHostController.navigate("list/${action.name}"){
+    val list: (Action) -> Unit = { action ->
+        navHostController.navigate("list/${action.name}") {
             /**
              * inclusive , means that whenever we navigate from our task composable to
              * our list composable,i wan to pop up to a list screen and basically remove
              * our task composable from the backstack and
              */
-            popUpTo(LIST_SCREEN) {inclusive = true}
+            popUpTo(LIST_SCREEN) { inclusive = true }
         }
     }
 

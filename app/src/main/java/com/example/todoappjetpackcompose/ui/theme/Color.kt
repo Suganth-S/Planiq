@@ -1,10 +1,19 @@
 package com.example.todoappjetpackcompose.ui.theme
 
+import android.provider.CalendarContract
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
+val Teal200 = Color(0xFF03DAC5)
 
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
@@ -14,3 +23,20 @@ val LowPriorityColor = Color(0xFF00C980)
 val MediumPriorityColor = Color(0xFFFFC114)
 val HighPriorityColor = Color(0xFFFFC4646)
 val NonePriorityColor = Color(0xFFFFFFFF)
+
+val LightGray = Color(0xFFFCFCFC)
+val MediumGray = Color(0xFF9C9C9C)
+val DarkGray = Color(0xFF141414)
+
+val ColorScheme.topAppBarContentColor : Color
+@Composable
+get() = if (isSystemInDarkTheme()) LightGray else Color.White
+
+val ColorScheme.topAppBarBackgrounColor : Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color.Black  else Purple500
+
+val Color.fabBackgrounColor : Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Purple700  else Teal200
+

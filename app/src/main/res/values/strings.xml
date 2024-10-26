@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">To Do App Jetpack Compose</string>
+    <string name="add_btn">Add Button</string>
+    <string name="search_task">Search Tasks</string>
+    <string name="sort_task">Sort Action</string>
+    <string name="delete_all_action">Delete All</string>
+    <string name="search">Search</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="tasks">Tasks</string>
 </resources>
