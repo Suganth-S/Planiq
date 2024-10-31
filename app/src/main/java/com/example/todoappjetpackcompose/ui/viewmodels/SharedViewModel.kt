@@ -4,8 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoappjetpackcompose.data.models.Priority
 import com.example.todoappjetpackcompose.data.models.ToDoTask
 import com.example.todoappjetpackcompose.data.repositories.ToDoRepository
+import com.example.todoappjetpackcompose.ui.screens.list.TaskItem
+import com.example.todoappjetpackcompose.util.RequestState
 import com.example.todoappjetpackcompose.util.SearchAppbarState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,14 +23,30 @@ class SharedViewModel @Inject constructor(
 
     val searchAppBarState : MutableState<SearchAppbarState> = mutableStateOf(SearchAppbarState.CLOSED)
     val searchTextState : MutableState<String> = mutableStateOf("")
-    private val _allTasks = MutableStateFlow<List<ToDoTask>>(emptyList())
-    val allTasks : StateFlow<List<ToDoTask>> = _allTasks
+    private val _allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
+    val allTasks : StateFlow<RequestState<List<ToDoTask>>> = _allTasks
 
-    fun getAllTasks() {
+    fun addTask(){
         viewModelScope.launch {
-            repository.getAllTask.collect{
-                _allTasks.value = it
+            val task =ToDoTask(
+                id = 0,
+                title = "Android",
+                description = "Jetpack compose",
+                priority = Priority.MEDIUM
+            )
+            repository.addTask(task)
+        }
+    }
+    fun getAllTasks() {
+        _allTasks.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                repository.getAllTask.collect{
+                    _allTasks.value = RequestState.Success(it)
+                }
             }
+        } catch (e: Exception) {
+            _allTasks.value = RequestState.Error(e)
         }
     }
 

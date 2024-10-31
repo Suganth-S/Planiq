@@ -40,3 +40,14 @@ val Color.fabBackgrounColor : Color
     @Composable
     get() = if (isSystemInDarkTheme()) Purple700  else Teal200
 
+val ColorScheme.isDark: Boolean
+    @Composable
+    get() = isSystemInDarkTheme()
+
+val ColorScheme.taskItemBackgroundColor: Color
+    @Composable
+    get() = if (isDark) DarkGray else Color.White
+
+val ColorScheme.taskItemTextColor: Color
+    @Composable
+    get() = if (isDark) LightGray else DarkGray
