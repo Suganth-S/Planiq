@@ -31,19 +31,44 @@ import com.example.todoappjetpackcompose.ui.theme.TASK_ITEM_ELEVATION
 import com.example.todoappjetpackcompose.ui.theme.taskItemBackgroundColor
 import com.example.todoappjetpackcompose.ui.theme.taskItemTextColor
 import com.example.todoappjetpackcompose.util.RequestState
+import com.example.todoappjetpackcompose.util.SearchAppbarState
 
 @Composable
 fun ListContent(
     tasks: RequestState<List<ToDoTask>>,
+    searchedTasks: RequestState<List<ToDoTask>>,
+    contentPaddingValues: PaddingValues,
+    searchAppbarState: SearchAppbarState,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (searchAppbarState == SearchAppbarState.TRIGGERED){
+        if (searchedTasks is RequestState.Success){
+            HandleListContent(
+                task = searchedTasks.data,
+                contentPaddingValues = contentPaddingValues,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
+    else if (tasks is RequestState.Success){
+        HandleListContent(task = tasks.data, contentPaddingValues = contentPaddingValues, navigateToTaskScreen = navigateToTaskScreen)
+    }
+}
+
+@Composable
+fun HandleListContent(
+    task: List<ToDoTask>,
     contentPaddingValues: PaddingValues,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks is RequestState.Success){
-        if (tasks.data.isEmpty()){
-            EmptyContent()
-        } else {
-            DisplayTasks(tasks = tasks.data, contentPaddingValues = contentPaddingValues, navigateToTaskScreen = navigateToTaskScreen)
-        }
+    if (task.isEmpty()){
+        EmptyContent()
+    } else{
+        DisplayTasks(
+            tasks = task,
+            contentPaddingValues = contentPaddingValues,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
     }
 }
 

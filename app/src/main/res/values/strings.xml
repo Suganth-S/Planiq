@@ -17,4 +17,6 @@
     <string name="drop_down_arrow">Drop Down Arrow Icon</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="input_fields_are_empty">Input fields are required</string>
+    <string name="all_tasks_removed">All Tasks Removed.</string>
 </resources>

@@ -28,9 +28,15 @@ fun NavGraphBuilder.taskComposable(
             sharedViewModel.getSelectedTask(taskId)
         }
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
-        
-        LaunchedEffect(key1 = taskId){
-            sharedViewModel.updateTaskFields(selectedTask)
+        /**
+         * LaunchedEffect is a composable function that runs a suspendable block of code when certain key conditions change.
+         * LaunchedEffect will only run when selectedTask changes. If selectedTask updates, the block will execute,
+         * calling below code to update the task fields accordingly.
+         */
+        LaunchedEffect(key1 = selectedTask){
+            if (selectedTask != null || taskId == -1){
+                sharedViewModel.updateTaskFields(selectedTask)
+            }
         }
         
         TaskScreen(

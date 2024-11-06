@@ -1,9 +1,13 @@
 package com.example.todoappjetpackcompose.ui.screens.task
 
-import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.todoappjetpackcompose.R
 import com.example.todoappjetpackcompose.data.models.Priority
 import com.example.todoappjetpackcompose.data.models.ToDoTask
 import com.example.todoappjetpackcompose.ui.viewmodels.SharedViewModel
@@ -18,12 +22,23 @@ fun TaskScreen(
     val title: String by sharedViewModel.title
     val description: String by sharedViewModel.description
     val priority: Priority by sharedViewModel.priority
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
             TaskAppBar(
                 selectedTask = selectedTask,
-                navigateToListScreen = navigateToListScreen
+                navigateToListScreen = {action ->
+                    if (action == Action.NO_ACTION){
+                        navigateToListScreen(action)
+                    }else {
+                        if (sharedViewModel.validateFields()){
+                            navigateToListScreen(action)
+                        }else{
+                            displayToast(context)
+                        }
+                    }
+                }
             )
         },
         content = {paddingValues ->
@@ -31,7 +46,7 @@ fun TaskScreen(
                 paddingValues,
                 title = title,
                 onTitleChange = {
-                    sharedViewModel.title.value = it
+                    sharedViewModel.updateTitle(it)
                 },
                 description = description,
                 onDescriptionChange = {
@@ -44,4 +59,12 @@ fun TaskScreen(
             )
         }
     )
+}
+
+fun displayToast(context: Context) {
+    Toast.makeText(
+        context,
+        context.getString(R.string.input_fields_are_empty),
+        Toast.LENGTH_SHORT
+    ).show()
 }

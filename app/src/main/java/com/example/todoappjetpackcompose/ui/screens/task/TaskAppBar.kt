@@ -121,7 +121,7 @@ fun CloseAction(
 fun DeleteAction(
     onDeleteClicked : (Action) -> Unit
 ) {
-    IconButton(onClick = { onDeleteClicked(Action.NO_ACTION)}) {
+    IconButton(onClick = { onDeleteClicked(Action.DELETE)}) {
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = stringResource(id = R.string.delete_icon),
