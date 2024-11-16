@@ -22,7 +22,7 @@ fun PriorityItem(priority: Priority) {
             drawCircle(color = priority.color)
         }
         Spacer(modifier = Modifier.width(LARGE_PADDING))
-        Text(text = priority.name, style = MaterialTheme.typography.bodyLarge)
+        Text(text = priority.name, style = MaterialTheme.typography.bodyMedium)
     }
 }
 

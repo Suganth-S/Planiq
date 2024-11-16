@@ -57,7 +57,9 @@ fun ListAppBar(
         SearchAppbarState.CLOSED -> {
             DefaultListAppBar(onSearchClicked = {
                 sharedViewModel.searchAppBarState.value = SearchAppbarState.OPENED
-            }, onSortAction = {}, onDeleteAllConfirmed = {
+            }, onSortClicked = {
+                sharedViewModel.persistSortingState(it)
+            }, onDeleteAllConfirmed = {
                 sharedViewModel.action.value = Action.DELETE_ALL
             })
         }
@@ -81,7 +83,7 @@ fun ListAppBar(
 @Composable
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
-    onSortAction: (Priority) -> Unit,
+    onSortClicked: (Priority) -> Unit,
     onDeleteAllConfirmed: () -> Unit
 ) {
     TopAppBar(
@@ -91,9 +93,9 @@ fun DefaultListAppBar(
         ),
         actions = {
             ListBarActions(
-                onSearchClicked,
-                onSortAction,
-                onDeleteAllConfirmed
+                onSearchClicked = onSearchClicked,
+                onSortClicked = onSortClicked,
+                onDeleteAllConfirmed= onDeleteAllConfirmed
             )
         }
     )
@@ -159,15 +161,19 @@ fun SortAction(
             DropdownMenuItem(
                 text = {
                     PriorityItem(priority = Priority.HIGH)
-                    onSortAction(Priority.HIGH)
                 },
-                onClick = { expanded = false })
+                onClick = {
+                    expanded = false
+                    onSortAction(Priority.HIGH)
+                })
             DropdownMenuItem(
                 text = {
                     PriorityItem(priority = Priority.NONE)
-                    onSortAction(Priority.NONE)
                 },
-                onClick = { expanded = false })
+                onClick = {
+                    expanded = false
+                    onSortAction(Priority.NONE)
+                })
         }
     }
 }
@@ -291,7 +297,7 @@ fun SearchAppBar(
 @Composable
 @Preview
 fun DefaultListAppBarPreview() {
-    DefaultListAppBar(onSearchClicked = {}, onSortAction = {}, onDeleteAllConfirmed = {})
+    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteAllConfirmed = {})
 }
 
 @Composable
